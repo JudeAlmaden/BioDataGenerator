@@ -1,204 +1,180 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['saved_biodata'])) {
+    header("Location: index.php");
+    exit;
+}
+
+$savedData = $_SESSION['saved_biodata'];
+unset($_SESSION['saved_biodata']); // prevent showing again
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Biodata Card</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: #f1f5f9;
-      margin: 0;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      min-height: 100vh;
-      color: #111827;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biodata Card</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
-    form {
-      background: white;
-      padding: 24px 28px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 360px;
-    }
+body {
+    background: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+}
 
-    h2 {
-      text-align: center;
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: #1e293b;
-    }
+.paper {
+    width: 794px;
+    height: 1123px;
+    background: #ffffff;
+    padding: 60px 70px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
 
-    label {
-      display: block;
-      font-weight: 500;
-      margin-top: 10px;
-      margin-bottom: 4px;
-      font-size: 0.9rem;
-    }
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 70px;
+}
 
-    input {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      font-size: 0.9rem;
-    }
+h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    color: #1e293b;
+}
 
-    button {
-      width: 100%;
-      margin-top: 16px;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+.profile-pic {
+    display: block;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 4px solid #e2e8f0;
+    object-fit: cover;
+    margin: 20px auto;
+}
 
-    button:hover { background: #1d4ed8; }
+.field {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px 0;
+    font-size: 1rem;
+}
 
+.label {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.value {
+    color: #111827;
+    text-align: right;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+button.save {
+    background: #16a34a;
+    color: white;
+}
+
+button.back {
+    background: #2563eb;
+    color: white;
+}
+
+button.back:hover {
+    background: #1d4ed8;
+}
+
+@media (max-width: 850px) {
     .paper {
-      width: 794px;
-      height: 1123px;
-      background: white;
-      border: 1px solid #d1d5db;
-      padding: 60px 70px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-      position: relative;
+        width: 90%;
+        padding: 40px;
     }
-
-    .logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 70px;
-    }
-
-    .paper h2 {
-      text-align: center;
-      text-transform: uppercase;
-      font-size: 1.4rem;
-      letter-spacing: 0.5px;
-      margin-top: 20px;
-      margin-bottom: 1.5rem;
-    }
-
-    .profile-pic {
-      display: block;
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      border: 4px solid #e2e8f0;
-      object-fit: cover;
-      margin: 20px auto;
-    }
-
-    .field {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #f3f4f6;
-      padding: 6px 0;
-      font-size: 0.9rem;
-    }
-
-    .label { font-weight: 600; color: #1f2937; }
-    .value { color: #111827; text-align: right; }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .actions button {
-      flex: 1;
-    }
-  </style>
+}
+</style>
 </head>
-
 <body>
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = htmlspecialchars($_POST['name']);
-    $age = htmlspecialchars($_POST['age']);
-    $birth = htmlspecialchars($_POST['birth_date']);
-    $address = htmlspecialchars($_POST['address']);
 
-    $photoData = null;
-    if (!empty($_FILES['photo']['tmp_name'])) {
-        $photoData = base64_encode(file_get_contents($_FILES['photo']['tmp_name']));
-        $photoMime = mime_content_type($_FILES['photo']['tmp_name']);
-    }
-?>
-  <!-- OUTPUT VIEW -->
-  <div class="paper">
+<div class="paper" id="biodataCard">
     <img src="Logo.png" alt="Logo" class="logo" />
     <h2>Personal Biodata</h2>
 
-    <?php if ($photoData): ?>
-      <img src="data:<?= $photoMime ?>;base64,<?= $photoData ?>" alt="Profile" class="profile-pic">
+    <?php if (!empty($savedData['photoData'])): ?>
+        <img src="data:<?= $savedData['photoMime'] ?>;base64,<?= $savedData['photoData'] ?>" alt="Profile" class="profile-pic">
     <?php endif; ?>
 
-    <div style="font-weight: bold;">District 1 Member</div>
+    <div style="font-weight:bold; text-align:center;">District 1 Member</div>
 
-    <div class="field"><span class="label">Full Name</span><span class="value"><?= $name ?></span></div>
-    <div class="field"><span class="label">Age</span><span class="value"><?= $age ?></span></div>
-    <div class="field"><span class="label">Birth Date</span><span class="value"><?= $birth ?></span></div>
-    <div class="field"><span class="label">Address</span><span class="value"><?= $address ?></span></div>
-  </div>
+    <div class="field"><span class="label">Full Name</span><span class="value"><?= $savedData['name'] ?></span></div>
+    <div class="field"><span class="label">Age</span><span class="value"><?= $savedData['age'] ?></span></div>
+    <div class="field"><span class="label">Birth Date</span><span class="value"><?= $savedData['birth'] ?></span></div>
+    <div class="field"><span class="label">Address</span><span class="value"><?= $savedData['address'] ?></span></div>
+</div>
 
-  <div class="actions">
-    <button type="button" onclick="download()">Download</button>
-    <button type="button" onclick="window.location.href=window.location.pathname">Go Back</button>
-  </div>
+<div class="actions">
+    <button class="save" id="saveBtn">Save & Download</button>
+    <button class="back" onclick="window.location.href='index.php'">Back</button>
+</div>
 
-<?php
-} else {
-?>
-  <!-- INPUT FORM -->
-  <form method="POST" enctype="multipart/form-data">
-    <h2>Enter Your Biodata</h2>
-    <label>Profile Image</label>
-    <input type="file" name="photo" accept="image/*" required>
+<!-- uploade and download -->
+<script>
+document.getElementById('saveBtn').addEventListener('click', function() {
+    // Run download
+    download();
 
-    <label>Full Name</label>
-    <input type="text" name="name" required>
+    // Alert user
+    alert("Your biodata is downloading. Please wait...");
 
-    <label>Age</label>
-    <input type="number" name="age" min="1" required>
+    // Wait a bit before redirecting (e.g., 1.5 seconds)
+    setTimeout(() => {
+        window.location.href = 'index.php'; // redirect after download
+    }, 3000);
+});
+</script>
 
-    <label>Birth Date</label>
-    <input type="date" name="birth_date" required>
 
-    <label>Address</label>
-    <input type="text" name="address" required>
-
-    <button type="submit">Generate Biodata</button>
-  </form>
-<?php
-}
-?>
 </body>
 </html>
 
 
-
+<!-- html2canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- Downlaod as pdf -->
+<!-- Download as pdf -->
 <script>
 async function downloadPdf() {
   const { jsPDF } = window.jspdf;
@@ -246,7 +222,7 @@ async function downloadPdf() {
 }
 </script>
 
-<!-- downlaod as img > then pdf-->
+<!-- download as img > then pdf-->
 <!-- This calls the download pdf function last as it may require internet to work -->
 <script>
 async function download() {
@@ -270,7 +246,7 @@ async function download() {
   link.href = imgData;
   link.click();
 
-  downloadPdf()
+  downloadPdf();
 }
 </script>
 
@@ -8105,4 +8081,5 @@ async function download() {
     return html2canvas;
 
 })));
+//# sourceMappingURL=html2canvas.js.map
 </script>
