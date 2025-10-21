@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Store in session only
-    $_SESSION['saved_biodata'] = [
+    $_SESSION['pending_biodata'] = [
         'name' => $name,
         'age' => $age,
         'birth' => $birth,
@@ -230,8 +230,9 @@ button:active {
 
     <label>Address</label>
     <input type="text" name="address" placeholder="123 Main St, City, Country" required>
-
     <button type="submit">Generate Biodata</button>
+
+       <label style="text-align: center;">Already have one? <a href="biodata_search.php">Click Here to search</a></label>
 </form>
 
 </body>
