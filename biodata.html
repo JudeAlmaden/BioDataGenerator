@@ -70,7 +70,7 @@
     button:hover { background: #1d4ed8; }
 
     .paper {
-      width: 794px; /* A4 at 96dpi */
+      width: 794px;
       height: 1123px;
       background: white;
       border: 1px solid #d1d5db;
@@ -129,6 +129,19 @@
 
     .download-btn:hover { background: #047857; }
 
+    .back-btn {
+      margin-top: 10px;
+      background: #6b7280;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .back-btn:hover { background: #4b5563; }
+
     #output { display: none; text-align: center; }
   </style>
 </head>
@@ -156,12 +169,14 @@
       <img src="Logo.png" alt="Logo" class="logo" />
       <h2>Personal Biodata</h2>
       <img id="profilePreview" class="profile-pic" />
+      <div style="font-weight: bold;">District 1 Member</div>
       <div class="field"><span class="label">Full Name</span><span class="value" id="displayName"></span></div>
       <div class="field"><span class="label">Age</span><span class="value" id="displayAge"></span></div>
       <div class="field"><span class="label">Birth Date</span><span class="value" id="displayBirth"></span></div>
       <div class="field"><span class="label">Address</span><span class="value" id="displayAddress"></span></div>
     </div>
     <button class="download-btn" onclick="download()">Download as Image</button>
+    <button class="back-btn" onclick="goBack()">Go Back</button>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -193,9 +208,15 @@
       document.getElementById('biodataForm').style.display = 'none';
       document.getElementById('output').style.display = 'block';
     }
+
+    function goBack() {
+      document.getElementById('output').style.display = 'none';
+      document.getElementById('biodataForm').style.display = 'block';
+    }
   </script>
 </body>
 </html>
+
 
 <!-- Downlaod as pdf -->
 <script>

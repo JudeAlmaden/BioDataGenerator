@@ -115,6 +115,16 @@
 
     .label { font-weight: 600; color: #1f2937; }
     .value { color: #111827; text-align: right; }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .actions button {
+      flex: 1;
+    }
   </style>
 </head>
 
@@ -141,15 +151,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <img src="data:<?= $photoMime ?>;base64,<?= $photoData ?>" alt="Profile" class="profile-pic">
     <?php endif; ?>
 
+    <div style="font-weight: bold;">District 1 Member</div>
+
     <div class="field"><span class="label">Full Name</span><span class="value"><?= $name ?></span></div>
     <div class="field"><span class="label">Age</span><span class="value"><?= $age ?></span></div>
     <div class="field"><span class="label">Birth Date</span><span class="value"><?= $birth ?></span></div>
     <div class="field"><span class="label">Address</span><span class="value"><?= $address ?></span></div>
   </div>
 
-  <div>
+  <div class="actions">
     <button type="button" onclick="download()">Download</button>
-    </div>
+    <button type="button" onclick="window.location.href=window.location.pathname">Go Back</button>
+  </div>
+
 <?php
 } else {
 ?>
@@ -178,6 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 </body>
 </html>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
