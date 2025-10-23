@@ -44,7 +44,7 @@ button.back:hover { background:#1d4ed8; }
 
     <div style="font-weight:bold; text-align:center;">District 1 Member</div>
 
-    <div class="field"><span class="label">Full Name</span><span class="value"><?= htmlspecialchars($savedData['name']) ?></span></div>
+    <div class="field"><span class="label">Full Name</span><span class="value" id="data-person"><?= htmlspecialchars($savedData['name']) ?></span></div>
     <div class="field"><span class="label">Age</span><span class="value"><?= htmlspecialchars($savedData['age']) ?></span></div>
     <div class="field"><span class="label">Birth Date</span><span class="value"><?= htmlspecialchars($savedData['birth']) ?></span></div>
     <div class="field"><span class="label">Address</span><span class="value"><?= htmlspecialchars($savedData['address']) ?></span></div>
@@ -61,7 +61,8 @@ button.back:hover { background:#1d4ed8; }
 <script>
 async function download() {
   const paper = document.querySelector('.paper');
-
+  const name = document.getElementById('data-person').innerText;
+  
   // Render the element as a high-resolution canvas
   const canvas = await html2canvas(paper, {
     scale: 3, // higher = sharper image
@@ -107,7 +108,7 @@ async function download() {
   const y = (pdfHeight - renderHeight) / 2;
 
   pdf.addImage(imgData, 'PNG', x, y, renderWidth, renderHeight);
-  pdf.save('biodata.pdf');
+  pdf.save(name + '.pdf');
 
   // After downloads, redirect to biodata_upload.php
   window.location.href = 'biodata_upload.php';
