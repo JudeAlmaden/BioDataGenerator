@@ -309,12 +309,19 @@ tr:hover { background:#f9fafb; }
 <?php endif; ?>
 
 <!-- Modal -->
-<div class="modal" id="biodataModal">
+<div class="modal" id="biodataModal" style="display:none">
     <div class="modal-content">
         <button class="download-btn" onclick="downloadPDF()">Download</button>
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <div class="paper" id="modalPaper"></div>
     </div>
+</div>
+
+<div style="text-align:right; margin:10px 0;">
+  <a href="biodata_all.php" 
+     style="text-decoration:none; color:#1e293b; background:#f1f5f9; padding:6px 14px; border-radius:6px; font-size:0.95rem; border:1px solid #e2e8f0; transition:all 0.2s;">
+     View list of all submitted biodata
+  </a>
 </div>
 
 <!-- html2canvas & jsPDF -->
